@@ -1,0 +1,29 @@
+!SESSION 2023-03-26 13:35:12.655 -----------------------------------------------
+eclipse.buildId=Version 1.11.2
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/noahlimpert/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -data /Users/noahlimpert/Documents/GitHub/Radio/cubeIDE_workspace -keyring /Users/noahlimpert/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-03-26 13:35:21.601
+!MESSAGE Log4j initialized with config file /Users/noahlimpert/Documents/GitHub/Radio/cubeIDE_workspace/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-03-26 13:35:30.767
+!MESSAGE Started RMI Server, listening on port 41338
+
+!ENTRY org.eclipse.cdt.core 1 0 2023-03-26 13:38:22.108
+!MESSAGE Indexed 'radio_mutex' (28 sources, 127 headers) in 8.45 sec: 13,339 declarations; 66,550 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.21%)
+!SESSION 2023-03-26 13:39:59.400 -----------------------------------------------
+eclipse.buildId=Version 1.11.2
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/noahlimpert/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -data /Users/noahlimpert/Documents/GitHub/Radio/cubeIDE_workspace -keyring /Users/noahlimpert/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-03-26 13:40:06.575
+!MESSAGE Log4j initialized with config file /Users/noahlimpert/Documents/GitHub/Radio/cubeIDE_workspace/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-03-26 13:40:17.881
+!MESSAGE Started RMI Server, listening on port 41339
