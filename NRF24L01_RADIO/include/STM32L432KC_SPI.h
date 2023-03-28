@@ -1,4 +1,4 @@
-// STM32F401RE_SPI.h
+// STM32L432KC_SPI.h
 // Header for SPI functions
 
 #ifndef STM32L4_SPI_H

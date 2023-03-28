@@ -26,17 +26,18 @@ int main(void) {
 
   // "clock divide" = master clock frequency / desired baud rate
   // the phase for the SPI clock is 1 and the polarity is 0
-  initSPI(1, 0, 0); //clock divide = 1, phase and polarity is 0
+  initSPI(16, 0, 0); //clock divide = 1, phase and polarity is 0
 
   while(1){
     // should send a read 'status' register(register x07) command out of the system
     // 0000 0111 
-    char check_status = 0xAA;
-    char blank = 0x0F;
+    char check_status = 0xAF;
+    char blank = 0xAA;
     char recievea,recieveb;
 
     recievea = spiSendReceive(check_status);
     recieveb = spiSendReceive(blank);
+    printf("ASCII value = %d, Character = %c\n", recievea , recieveb);
 
 
   }
