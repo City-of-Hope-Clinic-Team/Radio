@@ -1,10 +1,24 @@
-20:59:45 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+12:39:18 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
 make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:103:11: warning: variable 'receivedByte' set but not used [-Wunused-but-set-variable]
+  103 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:102:11: warning: unused variable 'checkFIFO_Status' [-Wunused-variable]
+  102 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
 arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
    text	   data	    bss	    dec	    hex	filename
-   9668	     20	   1684	  11372	   2c6c	Prototype3_RadioTest.elf
+   9632	     20	   1684	  11336	   2c48	Prototype3_RadioTest.elf
 Finished building: default.size.stdout
  
+Finished building: Prototype3_RadioTest.list
+ 
 
-20:59:46 Build Finished. 0 errors, 0 warnings. (took 406ms)
+12:39:19 Build Finished. 0 errors, 2 warnings. (took 675ms)
 

@@ -59,6 +59,8 @@ void setupTXsimple(void);
 void checkTXsimple(uint8_t *buf, uint8_t *buf2 );
 void transmitByte(uint8_t data);
 void flushTXFIFO(void);
+void setupRXsimple();
+uint8_t receiveByte();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,7 +100,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uint8_t checkStatus;
   uint8_t checkFIFO_Status;
-  setupTXsimple();
+  uint8_t receivedByte;
+  //setupTXsimple();
+  setupRXsimple(); // Configure as a receiver
 
   HAL_GPIO_WritePin(GPIOA, CE_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
@@ -110,6 +114,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	// TX side
+	/*
 	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
 	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
 	transmitByte(0x5C);
@@ -119,6 +125,16 @@ int main(void)
 	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
 	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
 	flushTXFIFO();
+	*/
+
+	// RX side
+	  checkStatus = spiReadByte(REG_STATUS);
+	  if (checkStatus & MASK_RX_DR)
+	  {
+		  receivedByte = receiveByte();
+		  spiWriteByte(REG_STATUS, 0x4E);
+	  }
+	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
@@ -286,21 +302,51 @@ void setupTXsimple(void)
 	// What is our TX_ADDRESS
 	uint8_t TxAddr[4] = {0x00, 0x11, 0x22, 0x33};
 	spiWriteNByte(REG_TX_ADDR, TxAddr, 4);
+	// RX address is the same as TX address
+	spiWriteNByte(REG_RX_ADDR_P0, TxAddr, 4);
 
 	// Receive Pipes not used
-	spiWriteByte(REG_RX_PW_P0, 0x00);
-	spiWriteByte(REG_RX_PW_P1, 0x00);
-	spiWriteByte(REG_RX_PW_P2, 0x00);
-	spiWriteByte(REG_RX_PW_P3, 0x00);
-	spiWriteByte(REG_RX_PW_P4, 0x00);
-	spiWriteByte(REG_RX_PW_P5, 0x00);
+	spiWriteByte(REG_EN_RXADDR, 0x01); // Only enable pipe 0 [bit 0 = 1]
+	spiWriteByte(REG_RX_PW_P0, 0x01); // 1 byte payload length on pipe 0
 
 	// no shockburst stuff
 	spiWriteByte(REG_DYNPD, 0x00);
 	spiWriteByte(REG_FEATURE, 0x00);
 
-	// Do config
+	// TX mode
+	// Enable error correction, power up, PRIM_RX = 0 [PTX]
 	spiWriteByte(REG_CONFIG, 0x0A);
+}
+
+void setupRXsimple(void)
+{
+	spiWriteByte(REG_SETUP_RETR, 0x00); // no retransmission / acknowledgment
+	spiWriteByte(REG_EN_AA, 0x00); //no auto acknowledge
+	spiWriteByte(REG_SETUP_AW, 0x02); // makes address width 4 bytes
+	spiWriteByte(REG_RF_CH, 0x02);// make frequency 2.402 Ghz
+	spiWriteByte(REG_RF_SETUP, 0x26); // lowest data rate + highest output pwr
+
+	// Address for the radio that we expect to be receiving data from
+	uint8_t TxAddr[4] = {0x00, 0x11, 0x22, 0x33};
+	// The unique address for data pipe 0 (see page 39 of datasheet)
+	uint8_t Rx_0_Addr[4] = {0x78, 0x78, 0x78, 0x78};
+
+	// Configure RX pipe 0 to the unique address, and pipe 1 to our transmitter address
+	spiWriteNByte(REG_RX_ADDR_P0, Rx_0_Addr, 4);
+	spiWriteNByte(REG_RX_ADDR_P1, TxAddr, 4);
+
+	// Use channel 1
+	// Note: I'm note sure if we need to enable pipe 0 here, since transmission is over pipe 1. Enabling it to be safe.
+	spiWriteByte(REG_EN_RXADDR, 0x03); // Enable pipes 0 and 1 [bit 0 and 1 = 1]
+	spiWriteByte(REG_RX_PW_P1, 0x01); // 1 byte payload length on pipe 1
+
+	// no shockburst stuff
+	spiWriteByte(REG_DYNPD, 0x00);
+	spiWriteByte(REG_FEATURE, 0x00);
+
+	// RX mode
+	// Enable error correction [bit 3], power up [bit 1], PRIM_RX = 1 [PRX] [bit 0]
+	spiWriteByte(REG_CONFIG, 0x0B);
 }
 
 void checkTXsimple(uint8_t *buf, uint8_t *buf2 )
@@ -338,8 +384,20 @@ void transmitByte(uint8_t data)
 	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_RESET); // put CSN = 0
 	// Send W_TX_Command
 	HAL_SPI_Transmit(&hspi1, txData, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 0
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 1
+}
 
+uint8_t receiveByte()
+{
+	uint8_t txData[2];
+	uint8_t rxData[2];
+	txData[0] = 0x61; // using the R_RX_PAYLOAD command
+	txData[1] = 0x00;
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_RESET); // put CSN = 0
+	// Send R_RX_PAYLOAD
+	HAL_SPI_TransmitReceive(&hspi1, txData, rxData, 2*sizeof(uint8_t), HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 1
+	return rxData[1];
 }
 
 void flushTXFIFO(void)
@@ -349,7 +407,7 @@ void flushTXFIFO(void)
 	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_RESET); // put CSN = 0
 	// Send W_TX_Command
 	HAL_SPI_Transmit(&hspi1, txData, 1, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 0
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 1
 
 }
 /* USER CODE END 4 */
