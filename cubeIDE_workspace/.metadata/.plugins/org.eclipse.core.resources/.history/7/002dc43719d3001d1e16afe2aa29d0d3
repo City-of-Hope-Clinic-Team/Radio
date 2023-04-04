@@ -89,6 +89,7 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+  HAL_GPIO_WritePin(GPIOB, CEpin_Pin, GPIO_PIN_SET);
 
 
   /* USER CODE BEGIN Init */
@@ -122,8 +123,6 @@ int main(void)
   uint8_t checkStatus;
   uint8_t checkFIFO_Status;
   setupTXsimple();
-  HAL_GPIO_WritePin(GPIOB, CEpin_Pin, GPIO_PIN_SET);
-
   //checkTXsimple(buf, buf2);
 
 
@@ -242,7 +241,7 @@ void setupTXsimple(void)
 
 	// no shockburst stuff
 	spiWriteByte(REG_DYNPD, 0x00);
-	spiWriteByte(REG_FEATURE, 0x01);
+	spiWriteByte(REG_FEATURE, 0x00);
 
 	// Do config
 	spiWriteByte(REG_CONFIG, 0x0A);
