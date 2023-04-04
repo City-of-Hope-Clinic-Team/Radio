@@ -57,6 +57,12 @@ uint8_t spiReadByte(uint8_t address);
 void spiWriteByte(uint8_t address, uint8_t value);
 void spiReadNByte(uint8_t reg, uint8_t *buf, uint8_t len);
 void spiWriteNByte(uint8_t address, const uint8_t *buf, uint8_t len);
+void setupTXsimple(void);
+void checkTXsimple(uint8_t *buf, uint8_t *buf2 );
+void transmitByte(uint8_t data);
+void flushTXFIFO(void);
+
+
 
 
 
@@ -109,12 +115,22 @@ int main(void)
 
 */
 
+  //uint8_t buf[14];
+  //uint8_t buf2[5];
+  uint8_t checkStatus;
+  uint8_t checkFIFO_Status;
+  setupTXsimple();
+  //checkTXsimple(buf, buf2);
+
 
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
+
   while (1)
   {
 	  /*uint8_t readtxResult;
@@ -123,13 +139,25 @@ int main(void)
 	  spiWriteByte(0x01, 0x2B);
 	  readtxResult = spiReadByte(0x01);
 	  */
+	  /*
 	  uint8_t result[8];
 	  uint8_t new_val[5] = {0xFF, 0x00, 0xFF, 0x00, 0xFF};
 	  spiReadNByte(0x0A, result, 5);
 	  spiWriteNByte(0x0A, new_val, 5);
 	  spiReadNByte(0x0A, result, 5);
+	  */
 
 	  //readtxResult = spiReadByte(0x0A, size);
+	  checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+	  checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
+	  transmitByte(0x5C);
+	  transmitByte(0x5D);
+	  checkStatus = spiReadByte(REG_STATUS); // Expect x2E
+	  spiWriteByte(REG_STATUS, 0x2E); // CLEARing datasend flag!
+	  checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+	  checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
+	  flushTXFIFO();
+
 
     /* USER CODE BEGIN 3 */
   }
@@ -188,6 +216,83 @@ void spiWriteNByte(uint8_t address, const uint8_t *buf, uint8_t len)
 	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_SET); // put CSN = 1
 }
 
+void setupTXsimple(void)
+{
+	spiWriteByte(REG_SETUP_RETR, 0x00); // no retransmission / acknowledgment
+	spiWriteByte(REG_EN_AA, 0x00); //no auto acknowledge
+	spiWriteByte(REG_SETUP_AW, 0x02); // makes address width 4 bytes
+	spiWriteByte(REG_RF_CH, 0x02);// make frequency 2.402 Ghz
+	spiWriteByte(REG_RF_SETUP, 0x26); // lowest data rate + highest output pwr
+
+	// What is our TX_ADDRESS
+	uint8_t TxAddr[4] = {0x00, 0x11, 0x22, 0x33};
+	spiWriteNByte(REG_TX_ADDR, TxAddr, 4);
+
+	// Receive Pipes not used
+	spiWriteByte(REG_RX_PW_P0, 0x00);
+	spiWriteByte(REG_RX_PW_P1, 0x00);
+	spiWriteByte(REG_RX_PW_P2, 0x00);
+	spiWriteByte(REG_RX_PW_P3, 0x00);
+	spiWriteByte(REG_RX_PW_P4, 0x00);
+	spiWriteByte(REG_RX_PW_P5, 0x00);
+
+	// no shockburst stuff
+	spiWriteByte(REG_DYNPD, 0x00);
+	spiWriteByte(REG_FEATURE, 0x00);
+
+	// Do config
+	spiWriteByte(REG_CONFIG, 0x0A);
+}
+
+void checkTXsimple(uint8_t *buf, uint8_t *buf2 )
+{
+
+	buf[0] = spiReadByte(REG_SETUP_RETR);
+	buf[13] = spiReadByte(REG_EN_AA); //no auto acknowledge
+	buf[1] = spiReadByte(REG_SETUP_AW); // makes address width 4 bytes
+	buf[2] = spiReadByte(REG_RF_CH);// make frequency 2.402 Ghz
+	buf[3] = spiReadByte(REG_RF_SETUP); // lowest data rate + highest output pwr
+
+	// What is our TX_ADDRESS
+	spiReadNByte(REG_TX_ADDR, (uint8_t *)buf2, 4);
+
+	// Receive Pipes not used
+	buf[4] =  spiReadByte(REG_RX_PW_P0);
+	buf[5] =  spiReadByte(REG_RX_PW_P1);
+	buf[6] =  spiReadByte(REG_RX_PW_P2);
+	buf[7] =  spiReadByte(REG_RX_PW_P3);
+	buf[8] =  spiReadByte(REG_RX_PW_P4);
+	buf[9] =  spiReadByte(REG_RX_PW_P5);
+
+	// no shockburst stuff
+	buf[10] =  spiReadByte(REG_DYNPD);
+	buf[11] =  spiReadByte(REG_FEATURE);
+	buf[12] =  spiReadByte(REG_CONFIG);
+}
+
+void transmitByte(uint8_t data)
+{
+	uint8_t txData[2];
+	txData[0] = 0xB0; // using the W_TX_PAYLOAD_NOACK cmd
+	txData[1] = data;
+
+	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_RESET); // put CSN = 0
+	// Send W_TX_Command
+	HAL_SPI_Transmit(&hspi1, txData, 2, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_SET); // put CSN = 0
+
+}
+
+void flushTXFIFO(void)
+{
+	uint8_t txData[2];
+	txData[0] = 0xE1; // using the W_TX_PAYLOAD_NOACK cmd
+	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_RESET); // put CSN = 0
+	// Send W_TX_Command
+	HAL_SPI_Transmit(&hspi1, txData, 1, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_SET); // put CSN = 0
+
+}
 
 /**
   * @brief System Clock Configuration
