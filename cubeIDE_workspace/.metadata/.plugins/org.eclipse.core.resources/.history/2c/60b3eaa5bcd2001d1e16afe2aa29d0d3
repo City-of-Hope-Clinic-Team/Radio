@@ -61,7 +61,6 @@ void setupTXsimple(void);
 void checkTXsimple(uint8_t *buf, uint8_t *buf2 );
 void transmitByte(uint8_t data);
 void flushTXFIFO(void);
-void ConstCarrierInit(uint8_t channel);
 
 
 
@@ -89,7 +88,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
 
   /* USER CODE BEGIN Init */
 
@@ -122,8 +120,6 @@ int main(void)
   uint8_t checkStatus;
   uint8_t checkFIFO_Status;
   setupTXsimple();
-  HAL_GPIO_WritePin(GPIOB, CEpin_Pin, GPIO_PIN_SET);
-
   //checkTXsimple(buf, buf2);
 
 
@@ -242,7 +238,7 @@ void setupTXsimple(void)
 
 	// no shockburst stuff
 	spiWriteByte(REG_DYNPD, 0x00);
-	spiWriteByte(REG_FEATURE, 0x01);
+	spiWriteByte(REG_FEATURE, 0x00);
 
 	// Do config
 	spiWriteByte(REG_CONFIG, 0x0A);
@@ -296,20 +292,6 @@ void flushTXFIFO(void)
 	HAL_SPI_Transmit(&hspi1, txData, 1, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOB, CSNpin_Pin, GPIO_PIN_SET); // put CSN = 0
 
-}
-
-void ConstCarrierInit(uint8_t channel)
-{
-	//pwr_up = 1, prim_rx = 0 in config
-	spiWriteByte(REG_CONFIG, 0x02);
-	// delay 5 ms
-	HAL_Delay(5);
-	// set CONT_WAVE, PLL_Lock, RF_PWR = 1011, 0110 = F-4 = 11 = B 6
-	spiWriteByte(REG_RF_SETUP, 0xB6);
-	// SET RF Channel to desired channel
-	spiWriteByte(REG_RF_CH, channel);
-	// Set CE high
-	HAL_GPIO_WritePin(GPIOB, CEpin_Pin, GPIO_PIN_SET);
 }
 
 /**
