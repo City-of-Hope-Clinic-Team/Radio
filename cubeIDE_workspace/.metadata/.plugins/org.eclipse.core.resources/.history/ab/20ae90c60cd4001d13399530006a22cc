@@ -59,7 +59,6 @@ void setupTXsimple(void);
 void checkTXsimple(uint8_t *buf, uint8_t *buf2 );
 void transmitByte(uint8_t data);
 void flushTXFIFO(void);
-void flushRXFIFO(void);
 void setupRXsimple();
 uint8_t receiveByte();
 /* USER CODE END PFP */
@@ -130,7 +129,7 @@ int main(void)
 
 	// RX side
 	  checkStatus = spiReadByte(REG_STATUS);
-	  if (checkStatus & (1 << MASK_RX_DR))
+	  if (checkStatus & MASK_RX_DR)
 	  {
 		  receivedByte = receiveByte();
 		  checkStatus = spiReadByte(REG_STATUS);
@@ -138,9 +137,6 @@ int main(void)
 		  spiWriteByte(REG_STATUS, 0x40); // Assert bit 6 of Status high (clear RX_DR flag)
 		  // Flush RX FIFO
 		  flushRXFIFO();
-		  // Stack overflow recommends reconfiguring as receiver here
-		  // I think it'll be fine, but that's another thing to try.
-		  // Source: https://stackoverflow.com/questions/51810883/nrf24l01-rx-mode-and-flush
 	  }
 	  HAL_Delay(100);
   }

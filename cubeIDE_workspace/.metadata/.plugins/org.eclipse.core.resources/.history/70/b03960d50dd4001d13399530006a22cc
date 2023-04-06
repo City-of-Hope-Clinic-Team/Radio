@@ -130,7 +130,7 @@ int main(void)
 
 	// RX side
 	  checkStatus = spiReadByte(REG_STATUS);
-	  if (checkStatus & (1 << MASK_RX_DR))
+	  if (checkStatus & MASK_RX_DR)
 	  {
 		  receivedByte = receiveByte();
 		  checkStatus = spiReadByte(REG_STATUS);
