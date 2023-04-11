@@ -61,6 +61,8 @@ void Error_Handler(void);
 #define CE_GPIO_Port GPIOA
 #define CSN_Pin GPIO_PIN_4
 #define CSN_GPIO_Port GPIOA
+#define ACC_CSN_Pin GPIO_PIN_15
+#define ACC_CSN_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

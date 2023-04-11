@@ -519,3 +519,421 @@ Finished building: default.size.stdout
  
 Finished building: Prototype3_RadioTest.list
  
+17:12:04 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32l4xx_hal_msp.d" -MT"Core/Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32l4xx_it.d" -MT"Core/Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32l4xx_it.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:130:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  130 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:128:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  128 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+   9988	     20	   1788	  11796	   2e14	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+17:12:11 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9988	     20	   1788	  11796	   2e14	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+17:20:53 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:43: warning: unused variable 'zhigh' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                           ^~~~~
+../Core/Src/main.c:147:37: warning: unused variable 'zlow' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                     ^~~~
+../Core/Src/main.c:147:30: warning: unused variable 'yhigh' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                              ^~~~~
+../Core/Src/main.c:147:24: warning: unused variable 'ylow' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                        ^~~~
+../Core/Src/main.c:147:17: warning: unused variable 'xhigh' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                 ^~~~~
+../Core/Src/main.c:147:11: warning: unused variable 'xlow' [-Wunused-variable]
+  147 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |           ^~~~
+../Core/Src/main.c:138:11: warning: unused variable 'debug' [-Wunused-variable]
+  138 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:130:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  130 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:128:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  128 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10252	     24	   1800	  12076	   2f2c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+17:21:12 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10252	     24	   1800	  12076	   2f2c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+17:24:43 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:148:43: warning: unused variable 'zhigh' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                           ^~~~~
+../Core/Src/main.c:148:37: warning: unused variable 'zlow' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                     ^~~~
+../Core/Src/main.c:148:30: warning: unused variable 'yhigh' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                              ^~~~~
+../Core/Src/main.c:148:24: warning: unused variable 'ylow' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                        ^~~~
+../Core/Src/main.c:148:17: warning: unused variable 'xhigh' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                 ^~~~~
+../Core/Src/main.c:148:11: warning: unused variable 'xlow' [-Wunused-variable]
+  148 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |           ^~~~
+../Core/Src/main.c:139:11: warning: unused variable 'debug' [-Wunused-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:130:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  130 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:128:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  128 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10252	     24	   1800	  12076	   2f2c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+17:24:52 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10252	     24	   1800	  12076	   2f2c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+17:31:17 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:150:43: warning: unused variable 'zhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                           ^~~~~
+../Core/Src/main.c:150:37: warning: unused variable 'zlow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                     ^~~~
+../Core/Src/main.c:150:30: warning: unused variable 'yhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                              ^~~~~
+../Core/Src/main.c:150:24: warning: unused variable 'ylow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                        ^~~~
+../Core/Src/main.c:150:17: warning: unused variable 'xhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                 ^~~~~
+../Core/Src/main.c:150:11: warning: unused variable 'xlow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |           ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:130:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  130 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:128:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  128 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10272	     24	   1800	  12096	   2f40	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+14:44:59 **** Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:175:2: warning: implicit declaration of function 'transmitBytes'; did you mean 'transmitByte'? [-Wimplicit-function-declaration]
+  175 |  transmitBytes(accBuffer, 6);
+      |  ^~~~~~~~~~~~~
+      |  transmitByte
+../Core/Src/main.c:150:43: warning: unused variable 'zhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                           ^~~~~
+../Core/Src/main.c:150:37: warning: unused variable 'zlow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                     ^~~~
+../Core/Src/main.c:150:30: warning: unused variable 'yhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                              ^~~~~
+../Core/Src/main.c:150:24: warning: unused variable 'ylow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                        ^~~~
+../Core/Src/main.c:150:17: warning: unused variable 'xhigh' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                 ^~~~~
+../Core/Src/main.c:150:11: warning: unused variable 'xlow' [-Wunused-variable]
+  150 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |           ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:130:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  130 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: unused variable 'checkFIFO_Status' [-Wunused-variable]
+  129 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:128:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  128 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:508:6: warning: conflicting types for 'transmitBytes'
+  508 | void transmitBytes(uint8_t* txdata, uint8_t len)
+      |      ^~~~~~~~~~~~~
+../Core/Src/main.c:175:2: note: previous implicit declaration of 'transmitBytes' was here
+  175 |  transmitBytes(accBuffer, 6);
+      |  ^~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10212	     24	   1800	  12036	   2f04	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+14:45:38 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:151:43: warning: unused variable 'zhigh' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                           ^~~~~
+../Core/Src/main.c:151:37: warning: unused variable 'zlow' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                                     ^~~~
+../Core/Src/main.c:151:30: warning: unused variable 'yhigh' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                              ^~~~~
+../Core/Src/main.c:151:24: warning: unused variable 'ylow' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                        ^~~~
+../Core/Src/main.c:151:17: warning: unused variable 'xhigh' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |                 ^~~~~
+../Core/Src/main.c:151:11: warning: unused variable 'xlow' [-Wunused-variable]
+  151 |   uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+      |           ^~~~
+../Core/Src/main.c:140:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  140 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:131:11: warning: unused variable 'receivedByte' [-Wunused-variable]
+  131 |   uint8_t receivedByte;
+      |           ^~~~~~~~~~~~
+../Core/Src/main.c:130:11: warning: unused variable 'checkFIFO_Status' [-Wunused-variable]
+  130 |   uint8_t checkFIFO_Status;
+      |           ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10212	     24	   1800	  12036	   2f04	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+14:46:06 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:177:2: error: 'checkStatus' undeclared (first use in this function)
+  177 |  checkStatus = spiReadByte(REG_STATUS); // Expect x2E
+      |  ^~~~~~~~~~~
+../Core/Src/main.c:177:2: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:140:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  140 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+14:46:23 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:140:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  140 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10108	     24	   1800	  11932	   2e9c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+09:20:51 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10108	     24	   1800	  11932	   2e9c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:21:48 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10108	     24	   1800	  11932	   2e9c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:26:36 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10108	     24	   1800	  11932	   2e9c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:27:17 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10108	     24	   1800	  11932	   2e9c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:40:08 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+09:40:22 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:46:31 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:46:55 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+09:47:36 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+20:09:25 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
