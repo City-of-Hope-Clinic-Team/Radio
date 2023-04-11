@@ -527,6 +527,23 @@ uint8_t receiveByte()
 	return rxData[1];
 }
 
+void receiveBytes(uint8_t* rxdata, uint8_t len)
+{
+	uint8_t txPayload = 0xB0;
+	uint8_t txzeros[6];
+	txzeros[0] = 0x00; // using the R_RX_PAYLOAD command
+	txzeros[1] = 0x00;
+	txzeros[2] = 0x00;
+	txzeros[3] = 0x00;
+	txzeros[4] = 0x00;
+	txzeros[5] = 0x00;
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_RESET); // put CSN = 0
+	// Send R_RX_PAYLOAD
+	HAL_SPI_Transmit(&hspi1, &txPayload, 1, HAL_MAX_DELAY);
+	HAL_SPI_TransmitReceive(&hspi1, txzeros, rxdata, len, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET); // put CSN = 1
+}
+
 void flushTXFIFO(void)
 {
 	uint8_t txData[2];

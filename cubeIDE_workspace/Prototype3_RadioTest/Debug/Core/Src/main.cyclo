@@ -14,6 +14,7 @@ main.c:470:6:checkTXsimple	1
 main.c:496:6:transmitByte	1
 main.c:508:6:transmitBytes	1
 main.c:517:9:receiveByte	1
-main.c:530:6:flushTXFIFO	1
-main.c:541:6:flushRXFIFO	1
-main.c:555:6:Error_Handler	1
+main.c:530:6:receiveBytes	1
+main.c:547:6:flushTXFIFO	1
+main.c:558:6:flushRXFIFO	1
+main.c:572:6:Error_Handler	1
