@@ -1,10 +1,10 @@
-21:00:05 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+21:15:20 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
 make -j16 all 
 arm-none-eabi-size   Prototype3_RadioTest.elf 
    text	   data	    bss	    dec	    hex	filename
-  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+  10576	     24	   1800	  12400	   3070	Prototype3_RadioTest.elf
 Finished building: default.size.stdout
  
 
-21:00:05 Build Finished. 0 errors, 0 warnings. (took 407ms)
+21:15:21 Build Finished. 0 errors, 0 warnings. (took 236ms)
 

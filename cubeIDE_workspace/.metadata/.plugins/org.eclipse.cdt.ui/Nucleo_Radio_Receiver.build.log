@@ -1,38 +1,10 @@
-21:37:06 **** Incremental Build of configuration Debug for project Nucleo_Radio_Receiver ****
+21:16:30 **** Incremental Build of configuration Debug for project Nucleo_Radio_Receiver ****
 make -j16 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:144:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-  144 |   sprintf(msg, "%d,%d,%d\n", xval/16, yval/16, zval/16);
-      |   ^~~~~~~
-../Core/Src/main.c:144:3: warning: incompatible implicit declaration of built-in function 'sprintf'
-../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-   25 | #include "nRF24L01.h"
-  +++ |+#include <stdio.h>
-   26 | /* USER CODE END Includes */
-../Core/Src/main.c:145:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-  145 |   HAL_UART_Transmit(&huart2, msg, strlen(msg), 100);
-      |                              ^~~
-      |                              |
-      |                              char *
-In file included from ../Core/Inc/stm32l4xx_hal_conf.h:450,
-                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:1674:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
- 1674 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-arm-none-eabi-gcc -o "Nucleo_Radio_Receiver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Nucleo_Radio_Receiver\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nucleo_Radio_Receiver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Nucleo_Radio_Receiver.elf
- 
 arm-none-eabi-size   Nucleo_Radio_Receiver.elf 
-arm-none-eabi-objdump -h -S  Nucleo_Radio_Receiver.elf  > "Nucleo_Radio_Receiver.list"
    text	   data	    bss	    dec	    hex	filename
-  17652	    120	   1840	  19612	   4c9c	Nucleo_Radio_Receiver.elf
+  17688	    120	   1840	  19648	   4cc0	Nucleo_Radio_Receiver.elf
 Finished building: default.size.stdout
  
-Finished building: Nucleo_Radio_Receiver.list
- 
 
-21:37:06 Build Finished. 0 errors, 3 warnings. (took 747ms)
+21:16:31 Build Finished. 0 errors, 0 warnings. (took 299ms)
 

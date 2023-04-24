@@ -111,9 +111,10 @@ int main(void)
   HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOA, CE_Pin, GPIO_PIN_SET);
 
-  uint8_t receivedDataBuffer[6];
+  uint8_t receivedDataBuffer[8];
   uint8_t checkStatus;
   int16_t xval, yval, zval;
+  uint16_t steps;
   char msg[80];
   /* USER CODE END 2 */
 
@@ -129,19 +130,15 @@ int main(void)
 	if (checkStatus & (1 << MASK_RX_DR))
 	{
 		//receivedByte = receiveByte();
-		receiveBytes(receivedDataBuffer, 6);
+		receiveBytes(receivedDataBuffer, 8);
 
 		// Parse the received acceleration data
-		//xval = (receivedDataBuffer[1] << 4) + (receivedDataBuffer[0] >> 4);
 		xval = (receivedDataBuffer[1]<<8) | (receivedDataBuffer[0]);
-		//alternative
-		//
-		//yval = (receivedDataBuffer[3] << 4) + (receivedDataBuffer[2] >> 4);
 		yval = (receivedDataBuffer[3]<<8) | (receivedDataBuffer[2]);
-		//zval = (receivedDataBuffer[5] << 4) + (receivedDataBuffer[4] >> 4);
 		zval = (receivedDataBuffer[5]<<8) | (receivedDataBuffer[4]);
+		steps = (receivedDataBuffer[7]<<8) | (receivedDataBuffer[6]);
 
-		sprintf(msg, "%d,%d,%d\n", xval/16, yval/16, zval/16);
+		sprintf(msg, "%d,%d,%d,%d\n", xval/16, yval/16, zval/16, steps);
 		HAL_UART_Transmit(&huart2, msg, strlen(msg), 100);
 
 		checkStatus = spiReadByte(REG_STATUS);
@@ -392,7 +389,7 @@ void setupRXsimple(void)
 	// Use channel 1
 	// Note: I'm note sure if we need to enable pipe 0 here, since transmission is over pipe 1. Enabling it to be safe.
 	spiWriteByte(REG_EN_RXADDR, 0x03); // Enable pipes 0 and 1 [bit 0 and 1 = 1]
-	spiWriteByte(REG_RX_PW_P1, 0x06); // 6 byte payload length on pipe 1
+	spiWriteByte(REG_RX_PW_P1, 0x08); // 8 byte payload length on pipe 1
 
 	// no shockburst stuff
 	spiWriteByte(REG_DYNPD, 0x00);

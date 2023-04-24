@@ -141,14 +141,27 @@ int main(void)
   debug = accSpiReadByte(0x0F);
 
   // Setup the LIS3DH for use
-  // CTRL_REG1 (20h) = 01110111
+  // CTRL_REG1 (20h) = 01110111 (0x77) - 400 Hz conversion rate
+  // CTRL_REG1 (20h) = 00100111 (0x27) - 10 Hz conversion rate
   accSpiWriteByte(0x20, 0x77); // highest conversion rate, all axis on
 
   // CTRL_REG4 (23h) = 10001000 (0x88), low res 10000000 (0x80)
   accSpiWriteByte(0x23, 0x88); // block update, and high resolution
 
   //uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
-  uint8_t accBuffer[6];
+  uint8_t dataBuffer[8]; // xlow, xhigh, ylow, yhigh, zlow, zhigh, steplow, stephigh
+  int16_t xval, yval, zval;
+  uint32_t accMag;
+
+  uint32_t stepThresh = 1250*1250; // About 12 m/s^2
+  uint32_t resetThresh = 1100*1100; // Use a different reset threshold for hysteresis
+  uint32_t resetDelay = 200; // Count multiple steps within this time as one step
+  uint32_t resetTimer = 0;
+  int stepFlag = 0;
+  uint16_t stepCount = 0; // IMPORTANT: Overflows at 65535 steps.
+  int accSampleDelay = 1;
+  int transmitDelay = 500;
+  int transmitTimer = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -158,60 +171,64 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	HAL_Delay(500);
+	HAL_Delay(accSampleDelay);
+	transmitTimer += accSampleDelay;
 
 	// 2 Hz continuous acceleration transmission
 	// Read accelerometer
-	accBuffer[0] = accSpiReadByte(0x28); // xlow
-	accBuffer[1] = accSpiReadByte(0x29); // xhigh
-	accBuffer[2] = accSpiReadByte(0x2A); // ylow
-	accBuffer[3] = accSpiReadByte(0x2B); // yhigh
-	accBuffer[4] = accSpiReadByte(0x2C); // zlow
-	accBuffer[5] = accSpiReadByte(0x2D); // zhigh
+	dataBuffer[0] = accSpiReadByte(0x28); // xlow
+	dataBuffer[1] = accSpiReadByte(0x29); // xhigh
+	dataBuffer[2] = accSpiReadByte(0x2A); // ylow
+	dataBuffer[3] = accSpiReadByte(0x2B); // yhigh
+	dataBuffer[4] = accSpiReadByte(0x2C); // zlow
+	dataBuffer[5] = accSpiReadByte(0x2D); // zhigh
 
-	// Transmit data
-	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
-	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
-	transmitBytes(accBuffer, 6);
-	checkStatus = spiReadByte(REG_STATUS); // Expect x2E
-	spiWriteByte(REG_STATUS, 0x2E); // CLEARing datasend flag!
-	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
-	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
-	flushTXFIFO();
+	// Convert data to acceleration values
+	xval = ((int16_t)(dataBuffer[1]<<8) | (dataBuffer[0]))/16;
+	yval = ((int16_t)(dataBuffer[3]<<8) | (dataBuffer[2]))/16;
+	zval = ((int16_t)(dataBuffer[5]<<8) | (dataBuffer[4]))/16;
 
-	// TX side
-	/*
-	// Read accelerometer
-	uint8_t xlow = accSpiReadByte(0x28);
-	uint8_t xhigh = accSpiReadByte(0x29);
+	// Step counter
+	accMag = xval*xval + yval*yval + zval*zval;
+	if (!stepFlag)
+	{
+		if (accMag > stepThresh)
+		{
+			// Step registered
+			stepFlag = 1;
+			resetTimer = 0;
+			stepCount++;
+		}
+	}
+	else
+	{
+		resetTimer += accSampleDelay;
+		if (resetTimer >= resetDelay && accMag < resetThresh)
+		{
+			// End of step
+			stepFlag = 0;
+		}
+	}
 
-	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
-	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
-	transmitByte(xlow);
-	transmitByte(xhigh);
-	checkStatus = spiReadByte(REG_STATUS); // Expect x2E
-	spiWriteByte(REG_STATUS, 0x2E); // CLEARing datasend flag!
-	checkStatus = spiReadByte(REG_STATUS); // Expect x0E
-	checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
-	flushTXFIFO();
-	*/
+	// Transmit data every 2 Hz
+	if (transmitTimer >= transmitDelay)
+	{
+		transmitTimer -= transmitDelay;
 
-	// RX side
-	/*
-	  checkStatus = spiReadByte(REG_STATUS);
-	  if (checkStatus & (1 << MASK_RX_DR))
-	  {
-		  receivedByte = receiveByte();
-		  checkStatus = spiReadByte(REG_STATUS);
-		  // Clear RX_DR flag
-		  spiWriteByte(REG_STATUS, 0x40); // Assert bit 6 of Status high (clear RX_DR flag)
-		  // Flush RX FIFO
-		  flushRXFIFO();
-		  // Stack overflow recommends reconfiguring as receiver here
-		  // I think it'll be fine, but that's another thing to try.
-		  // Source: https://stackoverflow.com/questions/51810883/nrf24l01-rx-mode-and-flush
-	  }
-	*/
+		// Move current steps into data buffer
+		dataBuffer[6] = stepCount & 0xFF; // Lower 8 bits of step count (steplow)
+		dataBuffer[7] = stepCount >> 8; // Upper 8 bits of step count (stephigh)
+
+		// Transmit data
+		checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+		checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
+		transmitBytes(dataBuffer, 8);
+		checkStatus = spiReadByte(REG_STATUS); // Expect x2E
+		spiWriteByte(REG_STATUS, 0x2E); // CLEARing datasend flag!
+		checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+		checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
+		flushTXFIFO();
+	}
   }
   /* USER CODE END 3 */
 }

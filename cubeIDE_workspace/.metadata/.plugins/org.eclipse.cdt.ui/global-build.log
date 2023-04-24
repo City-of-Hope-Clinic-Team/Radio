@@ -1500,3 +1500,320 @@ Finished building: default.size.stdout
  
 Finished building: Nucleo_Radio_Receiver.list
  
+19:25:40 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+19:26:18 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10316	     24	   1800	  12140	   2f6c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+19:52:22 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:156:24: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1500' to '220' [-Woverflow]
+  156 |   uint8_t stepThresh = 1500; // About 1.5 g's
+      |                        ^~~~
+../Core/Src/main.c:157:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1300' to '20' [-Woverflow]
+  157 |   uint8_t resetThresh = 1300; // Use a different reset threshold for hysteresis
+      |                         ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10540	     24	   1800	  12364	   304c	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+20:01:01 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:156:24: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1250' to '226' [-Woverflow]
+  156 |   uint8_t stepThresh = 1250; // About 12 m/s^2
+      |                        ^~~~
+../Core/Src/main.c:157:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1100' to '76' [-Woverflow]
+  157 |   uint8_t resetThresh = 1100; // Use a different reset threshold for hysteresis
+      |                         ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10564	     24	   1800	  12388	   3064	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+20:04:49 **** Build of configuration Debug for project Nucleo_Radio_Receiver ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:141:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  141 |   sprintf(msg, "%d,%d,%d,%d\n", xval/16, yval/16, zval/16, steps);
+      |   ^~~~~~~
+../Core/Src/main.c:141:3: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   25 | #include "nRF24L01.h"
+  +++ |+#include <stdio.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:142:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  142 |   HAL_UART_Transmit(&huart2, msg, strlen(msg), 100);
+      |                              ^~~
+      |                              |
+      |                              char *
+In file included from ../Core/Inc/stm32l4xx_hal_conf.h:450,
+                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:1674:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+ 1674 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Nucleo_Radio_Receiver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Nucleo_Radio_Receiver\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nucleo_Radio_Receiver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Nucleo_Radio_Receiver.elf
+ 
+arm-none-eabi-size   Nucleo_Radio_Receiver.elf 
+arm-none-eabi-objdump -h -S  Nucleo_Radio_Receiver.elf  > "Nucleo_Radio_Receiver.list"
+   text	   data	    bss	    dec	    hex	filename
+  17688	    120	   1840	  19648	   4cc0	Nucleo_Radio_Receiver.elf
+Finished building: default.size.stdout
+ 
+Finished building: Nucleo_Radio_Receiver.list
+ 
+20:51:00 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:156:24: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1250' to '226' [-Woverflow]
+  156 |   uint8_t stepThresh = 1250; // About 12 m/s^2
+      |                        ^~~~
+../Core/Src/main.c:157:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1100' to '76' [-Woverflow]
+  157 |   uint8_t resetThresh = 1100; // Use a different reset threshold for hysteresis
+      |                         ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10564	     24	   1800	  12388	   3064	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+20:51:51 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:156:24: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1250' to '226' [-Woverflow]
+  156 |   uint8_t stepThresh = 1250; // About 12 m/s^2
+      |                        ^~~~
+../Core/Src/main.c:157:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '1100' to '76' [-Woverflow]
+  157 |   uint8_t resetThresh = 1100; // Use a different reset threshold for hysteresis
+      |                         ^~~~
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10564	     24	   1800	  12388	   3064	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+20:55:19 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10592	     24	   1800	  12416	   3080	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+20:57:50 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10584	     24	   1800	  12408	   3078	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+21:00:32 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10568	     24	   1800	  12392	   3068	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+21:01:18 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10564	     24	   1800	  12388	   3064	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+21:04:46 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L432xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:139:11: warning: variable 'debug' set but not used [-Wunused-but-set-variable]
+  139 |   uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+      |           ^~~~~
+../Core/Src/main.c:129:24: warning: variable 'checkFIFO_Status' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:129:11: warning: variable 'checkStatus' set but not used [-Wunused-but-set-variable]
+  129 |   uint8_t checkStatus, checkFIFO_Status;
+      |           ^~~~~~~~~~~
+arm-none-eabi-gcc -o "Prototype3_RadioTest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Xande\Desktop\HMC Files\Junior\Spring\Clinic\Radio\cubeIDE_workspace\Prototype3_RadioTest\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prototype3_RadioTest.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Prototype3_RadioTest.elf
+ 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+arm-none-eabi-objdump -h -S  Prototype3_RadioTest.elf  > "Prototype3_RadioTest.list"
+   text	   data	    bss	    dec	    hex	filename
+  10576	     24	   1800	  12400	   3070	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+Finished building: Prototype3_RadioTest.list
+ 
+21:07:45 **** Incremental Build of configuration Debug for project Nucleo_Radio_Receiver ****
+make -j16 all 
+arm-none-eabi-size   Nucleo_Radio_Receiver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17688	    120	   1840	  19648	   4cc0	Nucleo_Radio_Receiver.elf
+Finished building: default.size.stdout
+ 
+21:12:15 **** Incremental Build of configuration Debug for project Nucleo_Radio_Receiver ****
+make -j16 all 
+arm-none-eabi-size   Nucleo_Radio_Receiver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17688	    120	   1840	  19648	   4cc0	Nucleo_Radio_Receiver.elf
+Finished building: default.size.stdout
+ 
+21:15:20 **** Incremental Build of configuration Debug for project Prototype3_RadioTest ****
+make -j16 all 
+arm-none-eabi-size   Prototype3_RadioTest.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10576	     24	   1800	  12400	   3070	Prototype3_RadioTest.elf
+Finished building: default.size.stdout
+ 
+21:16:30 **** Incremental Build of configuration Debug for project Nucleo_Radio_Receiver ****
+make -j16 all 
+arm-none-eabi-size   Nucleo_Radio_Receiver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17688	    120	   1840	  19648	   4cc0	Nucleo_Radio_Receiver.elf
+Finished building: default.size.stdout
+ 
