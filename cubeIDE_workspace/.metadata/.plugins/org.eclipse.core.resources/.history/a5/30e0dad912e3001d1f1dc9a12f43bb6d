@@ -21,7 +21,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "string.h"
 #include "nRF24L01.h"
 /* USER CODE END Includes */
 
@@ -42,8 +41,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
-
-UART_HandleTypeDef huart2;
+SPI_HandleTypeDef hspi3;
 
 /* USER CODE BEGIN PV */
 
@@ -53,8 +51,31 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_USART2_UART_Init(void);
+static void MX_SPI3_Init(void);
 /* USER CODE BEGIN PFP */
+uint8_t acctxbuffer[8];
+uint8_t accrxbuffer[8];
+uint32_t SPITIMEOUT = 100;
+
+uint8_t accSpiReadByte(uint8_t address)
+{
+	acctxbuffer[0] = address | 1 << 7; // set msb for reads
+	acctxbuffer[1] = 0;
+	HAL_GPIO_WritePin(GPIOA, ACC_CSN_Pin, GPIO_PIN_RESET); // Pull CS low
+	HAL_SPI_TransmitReceive(&hspi3, acctxbuffer, accrxbuffer, 2*sizeof(uint8_t), SPITIMEOUT);
+	HAL_GPIO_WritePin(GPIOA, ACC_CSN_Pin, GPIO_PIN_SET); // Release chip select
+	return accrxbuffer[1];
+}
+
+void accSpiWriteByte(uint8_t address, uint8_t value)
+{
+	acctxbuffer[0] = address;
+	acctxbuffer[1] = value;
+	HAL_GPIO_WritePin(GPIOA, ACC_CSN_Pin, GPIO_PIN_RESET); // Pull CS low
+	HAL_SPI_Transmit(&hspi3, acctxbuffer, 2, SPITIMEOUT);
+	HAL_GPIO_WritePin(GPIOA, ACC_CSN_Pin, GPIO_PIN_SET); // Release chip select
+}
+
 uint8_t spiReadByte(uint8_t address);
 void spiWriteByte(uint8_t address, uint8_t value);
 void spiReadNByte(uint8_t reg, uint8_t *buf, uint8_t len);
@@ -67,7 +88,6 @@ void flushTXFIFO(void);
 void flushRXFIFO(void);
 void setupRXsimple();
 uint8_t receiveByte();
-void receiveBytes(uint8_t* rxdata, uint8_t len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -104,17 +124,44 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-  MX_USART2_UART_Init();
+  MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-  setupRXsimple(); // Configure as a receiver
+  uint8_t checkStatus, checkFIFO_Status;
+  //uint8_t receivedByte;
+  setupTXsimple();
+  //setupRXsimple(); // Configure as a receiver
 
-  HAL_GPIO_WritePin(GPIOA, CSN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOA, CE_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, ACC_CSN_Pin, GPIO_PIN_SET);
 
-  uint8_t receivedDataBuffer[6];
-  uint8_t checkStatus;
+  // Setup the accelerometer
+  // Read the WHO_AM_I Register (should be 0x31 = 51)
+  uint8_t debug = accSpiReadByte(0x0F); // Should be 0x31 = 51
+  debug = accSpiReadByte(0x0F);
+  debug = accSpiReadByte(0x0F);
+
+  // Setup the LIS3DH for use
+  // CTRL_REG1 (20h) = 01110111 (0x77) - 400 Hz conversion rate
+  // CTRL_REG1 (20h) = 00100111 (0x27) - 10 Hz conversion rate
+  accSpiWriteByte(0x20, 0x77); // highest conversion rate, all axis on
+
+  // CTRL_REG4 (23h) = 10001000 (0x88), low res 10000000 (0x80)
+  accSpiWriteByte(0x23, 0x88); // block update, and high resolution
+
+  //uint8_t xlow, xhigh, ylow, yhigh, zlow, zhigh = 0; // Acceleration values
+  uint8_t dataBuffer[8]; // xlow, xhigh, ylow, yhigh, zlow, zhigh, steplow, stephigh
   int16_t xval, yval, zval;
-  char msg[80];
+  uint32_t accMag;
+
+  uint32_t stepThresh = 1250*1250; // About 12 m/s^2
+  uint32_t resetThresh = 1100*1100; // Use a different reset threshold for hysteresis
+  uint32_t resetDelay = 100; // Count multiple steps within this time as one step
+  uint32_t resetTimer = 0;
+  int stepFlag = 0;
+  uint16_t stepCount = 0; // IMPORTANT: Overflows at 65535 steps.
+  int accSampleDelay = 1;
+  int transmitDelay = 500;
+  int transmitTimer = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -124,35 +171,63 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	HAL_Delay(100);
-	checkStatus = spiReadByte(REG_STATUS);
-	if (checkStatus & (1 << MASK_RX_DR))
+	HAL_Delay(accSampleDelay);
+	transmitTimer += accSampleDelay;
+
+	// 2 Hz continuous acceleration transmission
+	// Read accelerometer
+	dataBuffer[0] = accSpiReadByte(0x28); // xlow
+	dataBuffer[1] = accSpiReadByte(0x29); // xhigh
+	dataBuffer[2] = accSpiReadByte(0x2A); // ylow
+	dataBuffer[3] = accSpiReadByte(0x2B); // yhigh
+	dataBuffer[4] = accSpiReadByte(0x2C); // zlow
+	dataBuffer[5] = accSpiReadByte(0x2D); // zhigh
+
+	// Convert data to acceleration values
+	xval = ((int16_t)(dataBuffer[1]<<8) | (dataBuffer[0]))/16;
+	yval = ((int16_t)(dataBuffer[3]<<8) | (dataBuffer[2]))/16;
+	zval = ((int16_t)(dataBuffer[5]<<8) | (dataBuffer[4]))/16;
+
+	// Step counter
+	accMag = xval*xval + yval*yval + zval*zval;
+	if (!stepFlag)
 	{
-		//receivedByte = receiveByte();
-		receiveBytes(receivedDataBuffer, 6);
+		if (accMag > stepThresh)
+		{
+			// Step registered
+			stepFlag = 1;
+			resetTimer = 0;
+			stepCount++;
+		}
+	}
+	else
+	{
+		resetTimer += accSampleDelay;
+		if (resetTimer >= resetDelay && accMag < resetThresh)
+		{
+			// End of step
+			stepFlag = 0;
+		}
+	}
 
-		// Parse the received acceleration data
-		//xval = (receivedDataBuffer[1] << 4) + (receivedDataBuffer[0] >> 4);
-		xval = (receivedDataBuffer[1]<<8) | (receivedDataBuffer[0]);
-		//alternative
-		//
-		//yval = (receivedDataBuffer[3] << 4) + (receivedDataBuffer[2] >> 4);
-		yval = (receivedDataBuffer[3]<<8) | (receivedDataBuffer[2]);
-		//zval = (receivedDataBuffer[5] << 4) + (receivedDataBuffer[4] >> 4);
-		zval = (receivedDataBuffer[5]<<8) | (receivedDataBuffer[4]);
+	// Transmit data every 2 Hz
+	if (transmitTimer >= transmitDelay)
+	{
+		transmitTimer -= transmitDelay;
 
-		sprintf(msg, "%d,%d,%d\n", xval/16, yval/16, zval/16);
-		HAL_UART_Transmit(&huart2, msg, strlen(msg), 100);
+		// Move current steps into data buffer
+		dataBuffer[6] = stepCount & 0xFF; // Lower 8 bits of step count (steplow)
+		dataBuffer[7] = stepCount >> 8; // Upper 8 bits of step count (stephigh)
 
-		checkStatus = spiReadByte(REG_STATUS);
-		// Clear RX_DR flag
-		spiWriteByte(REG_STATUS, 0x40); // Assert bit 6 of Status high (clear RX_DR flag)
-		// Flush RX FIFO
-		flushRXFIFO();
-		checkStatus = spiReadByte(REG_STATUS);
-		// Stack overflow recommends reconfiguring as receiver here
-		// I think it'll be fine, but that's another thing to try.
-		// Source: https://stackoverflow.com/questions/51810883/nrf24l01-rx-mode-and-flush
+		// Transmit data
+		checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+		checkFIFO_Status = spiReadByte(REG_FIFO_STATUS); // x11 expected
+		transmitBytes(dataBuffer, 8);
+		checkStatus = spiReadByte(REG_STATUS); // Expect x2E
+		spiWriteByte(REG_STATUS, 0x2E); // CLEARing datasend flag!
+		checkStatus = spiReadByte(REG_STATUS); // Expect x0E
+		checkFIFO_Status = spiReadByte(REG_FIFO_STATUS);// x01 expected
+		flushTXFIFO();
 	}
   }
   /* USER CODE END 3 */
@@ -243,37 +318,42 @@ static void MX_SPI1_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
+  * @brief SPI3 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_USART2_UART_Init(void)
+static void MX_SPI3_Init(void)
 {
 
-  /* USER CODE BEGIN USART2_Init 0 */
+  /* USER CODE BEGIN SPI3_Init 0 */
 
-  /* USER CODE END USART2_Init 0 */
+  /* USER CODE END SPI3_Init 0 */
 
-  /* USER CODE BEGIN USART2_Init 1 */
+  /* USER CODE BEGIN SPI3_Init 1 */
 
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
+  /* USER CODE END SPI3_Init 1 */
+  /* SPI3 parameter configuration*/
+  hspi3.Instance = SPI3;
+  hspi3.Init.Mode = SPI_MODE_MASTER;
+  hspi3.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi3.Init.CLKPolarity = SPI_POLARITY_HIGH;
+  hspi3.Init.CLKPhase = SPI_PHASE_2EDGE;
+  hspi3.Init.NSS = SPI_NSS_SOFT;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi3.Init.CRCPolynomial = 7;
+  hspi3.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+  hspi3.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+  if (HAL_SPI_Init(&hspi3) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART2_Init 2 */
+  /* USER CODE BEGIN SPI3_Init 2 */
 
-  /* USER CODE END USART2_Init 2 */
+  /* USER CODE END SPI3_Init 2 */
 
 }
 
@@ -290,12 +370,13 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, CE_Pin|CSN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, CE_Pin|CSN_Pin|ACC_CSN_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : CE_Pin CSN_Pin */
-  GPIO_InitStruct.Pin = CE_Pin|CSN_Pin;
+  /*Configure GPIO pins : CE_Pin CSN_Pin ACC_CSN_Pin */
+  GPIO_InitStruct.Pin = CE_Pin|CSN_Pin|ACC_CSN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -392,7 +473,7 @@ void setupRXsimple(void)
 	// Use channel 1
 	// Note: I'm note sure if we need to enable pipe 0 here, since transmission is over pipe 1. Enabling it to be safe.
 	spiWriteByte(REG_EN_RXADDR, 0x03); // Enable pipes 0 and 1 [bit 0 and 1 = 1]
-	spiWriteByte(REG_RX_PW_P1, 0x06); // 6 byte payload length on pipe 1
+	spiWriteByte(REG_RX_PW_P1, 0x01); // 1 byte payload length on pipe 1
 
 	// no shockburst stuff
 	spiWriteByte(REG_DYNPD, 0x00);
@@ -465,7 +546,7 @@ uint8_t receiveByte()
 
 void receiveBytes(uint8_t* rxdata, uint8_t len)
 {
-	uint8_t txPayload = 0x61;
+	uint8_t txPayload = 0xB0;
 	uint8_t txzeros[6];
 	txzeros[0] = 0x00; // using the R_RX_PAYLOAD command
 	txzeros[1] = 0x00;

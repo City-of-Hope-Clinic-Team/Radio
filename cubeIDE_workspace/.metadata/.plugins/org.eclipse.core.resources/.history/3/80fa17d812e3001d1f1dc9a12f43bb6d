@@ -155,12 +155,12 @@ int main(void)
 
   uint32_t stepThresh = 1250*1250; // About 12 m/s^2
   uint32_t resetThresh = 1100*1100; // Use a different reset threshold for hysteresis
-  uint32_t resetDelay = 100; // Count multiple steps within this time as one step
+  uint32_t resetDelay = 200; // Count multiple steps within this time as one step
   uint32_t resetTimer = 0;
   int stepFlag = 0;
   uint16_t stepCount = 0; // IMPORTANT: Overflows at 65535 steps.
   int accSampleDelay = 1;
-  int transmitDelay = 250;
+  int transmitDelay = 500;
   int transmitTimer = 0;
   /* USER CODE END 2 */
 
